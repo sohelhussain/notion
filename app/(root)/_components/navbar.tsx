@@ -5,11 +5,10 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
 import Image from 'next/image';
+import { ModeToggle } from '@/components/mode-toggle';
 
 const Navbar = () => {
-
     const [scrolled, setScrolled] = useState(false);
-
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 10) {
@@ -18,9 +17,7 @@ const Navbar = () => {
                 setScrolled(false);
             }
         }
-
         window.addEventListener('scroll', handleScroll);
-
         return () => {
             window.removeEventListener('scroll', handleScroll);
         }
@@ -50,9 +47,6 @@ const Navbar = () => {
                         </Link>
                     </div>
                 </div>
-
-
-
                 {/* Right Nav */}
                 <div className="flex items-center space-x-2">
                     <Button variant="ghost" className="hidden md:inline-flex font-medium">
@@ -64,6 +58,7 @@ const Navbar = () => {
                     <Button variant="default" className="bg-black hover:bg-gray-800 text-white font-medium">
                         Get Notion free
                     </Button>
+                    <ModeToggle />
                 </div>
             </nav>
         </div>
