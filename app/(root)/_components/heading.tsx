@@ -1,8 +1,20 @@
 "use client";
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
+import { useConvexAuth } from 'convex/react';
+import { Spinner } from '@/components/spinner';
+import Link from 'next/link';
+import { SignInButton } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 
 const Heading = () => {
+    const { isAuthenticated, isLoading } = useConvexAuth();
+    const router = useRouter();
+
+    // if (isAuthenticated) {
+    //     router.push('/documents');
+    // }
+
     return (
         <div className="container mx-auto px-4 py-16 md:py-2">
             <div className="flex flex-col md:flex-row items-center justify-between">
@@ -15,12 +27,20 @@ const Heading = () => {
                         Write. Plan. Collaborate. With a little help from AI.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4">
-                        <Button
-                            size="lg"
-                            className="bg-blue-500 hover:bg-blue-600 text-white font-bold text-lg h-12 rounded-md"
-                        >
-                            Get Notion free
-                        </Button>
+                        {isLoading && <Spinner size={"md"} />}
+                        {!isAuthenticated && !isLoading && (
+                            <SignInButton mode='modal'>
+                                <Button asChild
+                                    size="lg"
+                                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold text-lg h-12 rounded-md"
+                                >
+                                    <Link href="/documents">
+                                        Get Notion free
+                                    </Link>
+                                </Button>
+                            </SignInButton>
+                        )}
+
                         <Button
                             variant="outline"
                             size="lg"
