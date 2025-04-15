@@ -6,8 +6,12 @@ import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import { ModeToggle } from '@/components/mode-toggle';
+import { useConvexAuth } from 'convex/react';
+import { SignInButton, UserButton } from '@clerk/nextjs';
+import { Spinner } from '@/components/spinner';
 
 const Navbar = () => {
+    const { isAuthenticated, isLoading } = useConvexAuth();
     const [scrolled, setScrolled] = useState(false);
     useEffect(() => {
         const handleScroll = () => {
@@ -52,12 +56,31 @@ const Navbar = () => {
                     <Button variant="ghost" className="hidden md:inline-flex font-medium">
                         Request a demo
                     </Button>
-                    <Button variant="ghost" className="font-medium">
-                        Log in
-                    </Button>
-                    <Button variant="default" className="bg-black hover:bg-gray-800 text-white font-medium">
-                        Get Notion free
-                    </Button>
+                    {isLoading && <Spinner size={"md"} />}
+                    {!isAuthenticated && !isLoading && (
+                        <>
+                            <SignInButton mode='modal'>
+                                <Button variant={"ghost"} size={"sm"}>
+                                    Log in
+                                </Button>
+                            </SignInButton>
+                            <SignInButton mode='modal'>
+                                <Button size={"sm"}>
+                                    Get Notion free
+                                </Button>
+                            </SignInButton>
+                        </>
+                    )}
+                    {isAuthenticated && !isLoading && (
+                        <>
+                            <Button variant={"ghost"} size={"sm"} asChild>
+                                <Link href="/documents">
+                                    Enter your workspace
+                                </Link>
+                            </Button>
+                            <UserButton afterSignOutUrl='/' />
+                        </>
+                    )}
                     <ModeToggle />
                 </div>
             </nav>
