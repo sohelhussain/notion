@@ -5,6 +5,7 @@ import { ChevronsLeft, MenuIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
 import { useMediaQuery } from "usehooks-ts";
+import UserItem from "./user-item";
 
 const Navigation = () => {
     const pathname = usePathname();
@@ -118,8 +119,9 @@ const Navigation = () => {
                 </div>
 
                 {/* Sidebar Content */}
-                <div className="p-4">
-                    <p className="text-muted-foreground font-medium">Action items</p>
+                <div className="">
+                    {/* <p className="text-muted-foreground font-medium">Action items</p> */}
+                    <UserItem />
                 </div>
                 <div className="p-4">
                     <p className="text-muted-foreground font-medium">Documents</p>
