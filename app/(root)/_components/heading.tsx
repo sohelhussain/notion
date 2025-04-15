@@ -11,9 +11,9 @@ const Heading = () => {
     const { isAuthenticated, isLoading } = useConvexAuth();
     const router = useRouter();
 
-    // if (isAuthenticated) {
-    //     router.push('/documents');
-    // }
+    if (isAuthenticated) {
+        router.push('/documents');
+    }
 
     return (
         <div className="container mx-auto px-4 py-16 md:py-2">
