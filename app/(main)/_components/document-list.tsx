@@ -57,10 +57,12 @@ export const DocumentList = ({
     }
 
 
+    console.log(`documents`, level)
+
     return <>
         <p
             style={{
-                padding: level ? `${(level * 12) + 25}px` : undefined
+                paddingLeft: level ? `${level * 12 + 25}px` : undefined
             }}
             className={cn(
                 `hidden text-sm font-medium text-muted-foreground/80 ${expended && "last:block"} ${level === 0 && "hidden"}`
@@ -70,7 +72,7 @@ export const DocumentList = ({
         </p>
         {documents.map((document) => (
             <div key={document._id}>
-                <Item id={document._id} onClick={() => onRedirect(document._id)} label="document.title" icon={FileIcon} documentIcon={document.icon} active={params.documentId === document._id} onExpand={() => onExpand(document._id)} expanded={expended[document._id]} />
+                <Item id={document._id} onClick={() => onRedirect(document._id)} level={level} label="document.title" icon={FileIcon} documentIcon={document.icon} active={params.documentId === document._id} onExpand={() => onExpand(document._id)} expanded={expended[document._id]} />
                 {expended[document._id] && (
                     <DocumentList
                         parentDocumentId={document._id}

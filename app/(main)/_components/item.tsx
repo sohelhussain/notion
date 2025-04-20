@@ -54,11 +54,10 @@ export const Item = ({ onClick, label, icon: Icon, active, expanded, documentIco
 
     const ChevronIcon = expanded ? ChevronDown : ChevronRight;
 
+    console.log(level, "on");
     return (
         <div onClick={onClick} role="button"
-            style={{
-                paddingLeft: level ? `${(level * 12) + 12}` : "12px"
-            }}
+            style={{paddingLeft:level ? `${(level * 12) + 12}px` :'12px'}}
             className={cn(`group min-h-[27px] text-sm py-1 pr-3 cursor-pointer w-full hover:bg-primary/5 flex items-center text-muted-foreground font-medium ${active && "bg-primary/5 text-primary"}`)}>
             {!!id && (
                 <div role="button" onClick={handleExpand} className="h-full rounded-sm hover:bg-neutral-300 dark:bg-neutral-600 mr-1">
@@ -99,10 +98,9 @@ export const Item = ({ onClick, label, icon: Icon, active, expanded, documentIco
 
 
 Item.Skeleton = function ItemSkeleton({ level }: { level?: number }) {
+    console.log(level)
     return <div
-        style={{
-            paddingLeft: level ? `${(level * 12) + 25}px` : "12px"
-        }}
+    style={{paddingLeft:level ? `${(level * 12) + 25}px`: '12px'}}
         className="flex gap-x-2 py-[3px]"
     >
 
