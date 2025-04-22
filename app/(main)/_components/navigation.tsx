@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { ChevronsLeft, MenuIcon, Plus, PlusCircle, Search, Settings } from "lucide-react";
+import { ChevronsLeft, MenuIcon, Plus, PlusCircle, Search, Settings, Trash } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
 import { useMediaQuery } from "usehooks-ts";
@@ -12,12 +12,15 @@ import { api } from "@/convex/_generated/api";
 import { Item } from "./item";
 import { toast } from "sonner";
 import { DocumentList } from "./document-list";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { TrashBox } from "./trash-box";
+import { useSearch } from "@/hook/use-search";
 
 const Navigation = () => {
     const pathname = usePathname();
     const isMobile = useMediaQuery("(max-width: 768px)");
     const create = useMutation(api.documents.create);
-
+    const search = useSearch();
 
 
     const isResizingRef = useRef(false);
@@ -143,13 +146,23 @@ const Navigation = () => {
                 <div className="">
                     {/* <p className="text-muted-foreground font-medium">Action items</p> */}
                     <UserItem />
-                    <Item onClick={() => { }} label="Search" isSearch icon={Search} />
+                    <Item onClick={search.onOpen} label="Search" isSearch icon={Search} />
                     <Item onClick={() => { }} label="Settings" icon={Settings} />
                     <Item onClick={handleCreate} label="Add new" icon={Plus} />
                 </div>
                 <div className="p-4">
                     {/* <p className="text-muted-foreground font-medium">Documents</p> */}
                     <DocumentList />
+                    <Item onClick={handleCreate} label="Add a page" icon={Plus} />
+                    <Popover>
+                        <PopoverTrigger className="w-full mt-4">
+                            <Item label="Trash" icon={Trash} />
+                        </PopoverTrigger>
+                        <PopoverContent side={isMobile ? "bottom" : "right"} className="p-0 w-72">
+                            {/* <p>Trash Box</p> */}
+                            <TrashBox />
+                        </PopoverContent>
+                    </Popover>
                 </div>
 
                 {/* Resizer */}

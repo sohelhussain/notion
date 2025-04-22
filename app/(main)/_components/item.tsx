@@ -4,8 +4,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
+import { useUser } from "@clerk/nextjs";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useMutation } from "convex/react";
-import { ChevronDown, ChevronRight, LucideIcon, Plus } from "lucide-react";
+import { ChevronDown, ChevronRight, LucideIcon, MoreHorizontal, Plus, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -17,15 +19,30 @@ interface ItemProps {
     isSearch?: boolean;
     level?: number;
     onExpand?: () => void;
-    onClick: () => void;
+    onClick?: () => void;
     label: string;
     icon: LucideIcon;
 }
 
 export const Item = ({ onClick, label, icon: Icon, active, expanded, documentIcon, isSearch, id, onExpand, level = 0 }: ItemProps) => {
 
+    const { user } = useUser();
     const router = useRouter();
     const create = useMutation(api.documents.create);
+    const archive = useMutation(api.documents.archive)
+
+    const onArchive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        event.stopPropagation()
+        if (!id) return
+        const promise = archive({ id })
+            .then(() => router.push('/documents'))
+
+        toast.promise(promise, {
+            loading: "Moving to trash...",
+            success: "Note moved to trash!",
+            error: "Failed to archive note"
+        })
+    }
 
     const handleExpand = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         event.stopPropagation();
@@ -56,39 +73,55 @@ export const Item = ({ onClick, label, icon: Icon, active, expanded, documentIco
 
     console.log(level, "on");
     return (
-        <div onClick={onClick} role="button"
-            style={{paddingLeft:level ? `${(level * 12) + 12}px` :'12px'}}
-            className={cn(`group min-h-[27px] text-sm py-1 pr-3 cursor-pointer w-full hover:bg-primary/5 flex items-center text-muted-foreground font-medium ${active && "bg-primary/5 text-primary"}`)}>
+        <div className={cn(`group min-h-[27px] text-sm py-1 pr-3 w-full hover:bg-primary/5
+            flex items-center text-muted-foreground font-medium`,
+            active && 'bg-primary/5 text-primary')}
+            onClick={onClick} role="button" style={{ paddingLeft: level ? `${(level * 12) + 12}px` : '12px' }}>
             {!!id && (
-                <div role="button" onClick={handleExpand} className="h-full rounded-sm hover:bg-neutral-300 dark:bg-neutral-600 mr-1">
-                    <ChevronIcon className="shrink-0 h-[18px] mr-2 text-muted-foreground w-4" />
+                <div className="h-full rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 mr-1" onClick={handleExpand} role="button">
+                    <ChevronIcon className="w-4 h-4 shrink-0 text-muted-foreground/50" />
                 </div>
             )}
-
             {documentIcon ? (
-                <div className="shrink-0 text-[18px] mr-2">
+                <div className="shrink-0 mr-2 text-[18px]">
                     {documentIcon}
                 </div>
             ) :
-
-                <Icon className="shrink-0 h-[18px] mr-2 text-muted-foreground w-4" />
+                <Icon className="shrink-0 w-[18px] h-[18px] mr-2 text-muted-foreground" />
             }
-
-            <span>
+            <span className="truncate">
                 {label}
             </span>
-
             {isSearch && (
-                <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-                    <span className="text-xs">⌘</span>
-                    <span className="text-xs">K</span>
+                <kbd className="ml-auto pointer-events-none inline-flex gap-1 items-center h-5 select-none rounded border
+                bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+                    <span className="text-xs">⌘</span>K
                 </kbd>
             )}
 
             {!!id && (
-                <div role="button" onClick={onCreate} className="ml-auto flex items-center gap-x-2">
-                    <div className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600">
-                        <Plus className="h-4 w-4 text-muted-foreground" />
+                <div className="ml-auto flex items-center gap-x-2">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                            <div className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm
+                    hover:bg-neutral-300 dark:hover:bg-neutral-600" role="button">
+                                <MoreHorizontal className="w-4 h-4 text-muted-foreground" />
+                            </div>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-60" align="start" side="right" forceMount>
+                            <DropdownMenuItem onClick={onArchive}>
+                                <Trash className="w-4 h-4 mr-2" />
+                                Delete
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <div className="text-xs text-muted-foreground p-2">
+                                Last edited by: {user?.fullName}
+                            </div>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                    <div className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
+                        role="button" onClick={onCreate}>
+                        <Plus className="w-4 h-4 text-muted-foreground" />
                     </div>
                 </div>
             )}
@@ -100,7 +133,7 @@ export const Item = ({ onClick, label, icon: Icon, active, expanded, documentIco
 Item.Skeleton = function ItemSkeleton({ level }: { level?: number }) {
     console.log(level)
     return <div
-    style={{paddingLeft:level ? `${(level * 12) + 25}px`: '12px'}}
+        style={{ paddingLeft: level ? `${(level * 12) + 25}px` : '12px' }}
         className="flex gap-x-2 py-[3px]"
     >
 
