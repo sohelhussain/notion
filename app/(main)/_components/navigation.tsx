@@ -15,12 +15,14 @@ import { DocumentList } from "./document-list";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { TrashBox } from "./trash-box";
 import { useSearch } from "@/hook/use-search";
+import { useSettings } from "@/hook/use-settings";
 
 const Navigation = () => {
     const pathname = usePathname();
     const isMobile = useMediaQuery("(max-width: 768px)");
     const create = useMutation(api.documents.create);
     const search = useSearch();
+    const settings = useSettings();
 
 
     const isResizingRef = useRef(false);
@@ -147,7 +149,7 @@ const Navigation = () => {
                     {/* <p className="text-muted-foreground font-medium">Action items</p> */}
                     <UserItem />
                     <Item onClick={search.onOpen} label="Search" isSearch icon={Search} />
-                    <Item onClick={() => { }} label="Settings" icon={Settings} />
+                    <Item onClick={settings.onOpen} label="Settings" icon={Settings} />
                     <Item onClick={handleCreate} label="Add new" icon={Plus} />
                 </div>
                 <div className="p-4">
