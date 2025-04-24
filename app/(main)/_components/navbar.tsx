@@ -58,8 +58,7 @@ export function Navbar({ isCollapsed, onResetWidth }: NavbarProps) {
                 </div>
             </nav>
             {document.isArchived && (
-                // <Banner documentId={document._id} />
-                <div>sdf</div>
+                <Banner documentId={document._id} />
             )}
         </>
     )
