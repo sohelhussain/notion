@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { ChevronsLeft, MenuIcon, Plus, PlusCircle, Search, Settings, Trash } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { useMutation } from "convex/react";
@@ -15,13 +15,14 @@ import { DocumentList } from "./document-list";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { TrashBox } from "./trash-box";
 import { useSearch } from "@/hook/use-search";
+import { Navbar } from "./navbar";
 
 const Navigation = () => {
     const pathname = usePathname();
     const isMobile = useMediaQuery("(max-width: 768px)");
     const create = useMutation(api.documents.create);
     const search = useSearch();
-
+    const params = useParams();
 
     const isResizingRef = useRef(false);
     const sidebarRef = useRef<HTMLDivElement>(null);
@@ -176,23 +177,19 @@ const Navigation = () => {
             </aside>
 
             {/* Navbar */}
-            <div
-                ref={navbarRef}
-                className={cn(
-                    "absolute top-0 z-[99999]",
-                    isCollapsed ? "left-0 w-full" : "left-60 w-[calc(100%-240px)]",
-                    isResetting && "transition-all duration-300 ease-in-out"
-                )}
-            >
-                <nav className="bg-transparent px-3 py-2 w-full">
-                    {isCollapsed && (
-                        <MenuIcon
-                            role="button"
-                            onClick={resetWidth}
-                            className="h-6 w-6 text-muted-foreground"
-                        />
+            {console.log(`isCollapsed: ${isCollapsed}`)}
+            {console.log(`documentid: ${params.documentsId}`)}
+            <div className={cn(`absolute top-0 z-[99999] left-60 w-[calc(100%-240px)]`,
+                isResetting && 'transition-all ease-in-out duration-300',
+                isMobile && 'left-0 w-full')} ref={navbarRef}>
+                {!!params.documentsId ? (
+                    <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
+                )
+                    : (
+                        <nav className="bg-transparent px-3 py-2 w-full">
+                            {isCollapsed && <MenuIcon className="w-6 h-6 text-muted-foreground" onClick={resetWidth} role="button" />}
+                        </nav>
                     )}
-                </nav>
             </div>
         </>
     );
