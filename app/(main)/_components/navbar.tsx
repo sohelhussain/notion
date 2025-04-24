@@ -21,7 +21,7 @@ export function Navbar({ isCollapsed, onResetWidth }: NavbarProps) {
     const params = useParams()
 
     const document = useQuery(api.documents.getById, {
-        documentId: params.documentId as Id<'documents'>
+        documentId: params.documentsId as Id<'documents'>
     })
 
     if (document === undefined) {
@@ -52,13 +52,14 @@ export function Navbar({ isCollapsed, onResetWidth }: NavbarProps) {
                 <div className="flex justify-between items-center w-full">
                     <Title initialData={document} />
                     <div className="flex gap-x-2 items-center">
-                        <Publish initialData={document} />
+                        {/* <Publish initialData={document} /> */}
                         <Menu documentId={document._id} />
                     </div>
                 </div>
             </nav>
             {document.isArchived && (
-                <Banner documentId={document._id} />
+                // <Banner documentId={document._id} />
+                <div>sdf</div>
             )}
         </>
     )

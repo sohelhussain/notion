@@ -2,14 +2,15 @@
 
 import { Spinner } from "@/components/spinner";
 import { useConvexAuth } from "convex/react";
-import { redirect } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import Navigation from "./_components/navigation";
 import { SearchCommand } from "@/components/search-command";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
     const { isAuthenticated, isLoading } = useConvexAuth();
-
+    const params = useParams();
+    console.log(`params layout: ${params.documentsId}`)
     if (isLoading) {
         return <div className="h-full flex items-center justify-center">
             <Spinner size={"lg"} />

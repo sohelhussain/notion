@@ -15,7 +15,7 @@ import { DocumentList } from "./document-list";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { TrashBox } from "./trash-box";
 import { useSearch } from "@/hook/use-search";
-import Navbar from "./navbar";
+import { Navbar } from "./navbar";
 
 const Navigation = () => {
     const pathname = usePathname();
@@ -177,10 +177,12 @@ const Navigation = () => {
             </aside>
 
             {/* Navbar */}
+            {console.log(`isCollapsed: ${isCollapsed}`)}
+            {console.log(`documentid: ${params.documentsId}`)}
             <div className={cn(`absolute top-0 z-[99999] left-60 w-[calc(100%-240px)]`,
                 isResetting && 'transition-all ease-in-out duration-300',
                 isMobile && 'left-0 w-full')} ref={navbarRef}>
-                {!!params.documentId ? (
+                {!!params.documentsId ? (
                     <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
                 )
                     : (
