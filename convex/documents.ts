@@ -292,7 +292,7 @@ export const update = mutation({
   },
 });
 
-export const removeIcone = mutation({
+export const removeIcon = mutation({
   args: { id: v.id("documents") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -320,3 +320,33 @@ export const removeIcone = mutation({
     return document;
   },
 });
+
+
+export const removeCoverImage = mutation({
+  args: {id: v.id("documents")},
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+
+    const userId = identity.subject;
+
+    const existingDocument = await ctx.db.get(args.id);
+
+    if (!existingDocument) {
+      throw new Error("Document not found");
+    }
+
+    if (existingDocument.userId !== userId) {
+      throw new Error("You are not authorized to update this document");
+    }
+
+    const document = await ctx.db.patch(args.id, {
+      coverImage: undefined,
+    });
+
+    return document;
+  },
+})
