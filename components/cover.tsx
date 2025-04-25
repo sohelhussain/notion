@@ -10,6 +10,7 @@ import { api } from "@/convex/_generated/api";
 import { useParams } from "next/navigation";
 import { Id } from "@/convex/_generated/dataModel";
 import { useEdgeStore } from "@/lib/edgestore";
+import { Skeleton } from "./ui/skeleton";
 
 
 
@@ -53,6 +54,16 @@ export const Cover = ({
                     </Button>
                 </div>
             )}
+        </div>
+    )
+}
+
+
+Cover.Skeleton = function CoverSkeleton() {
+    return (
+        <div className="flex flex-col items-center justify-center gap-2 text-center text-xs text-muted-foreground">
+            <Skeleton className="h-4 w-4" />
+            <Skeleton className="h-4 w-[30%]" />
         </div>
     )
 }
