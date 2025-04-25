@@ -57,7 +57,6 @@ export const DocumentList = ({
     }
 
 
-    console.log(`documents`, level)
 
     return <>
         <p

@@ -59,7 +59,7 @@ export const Item = ({ onClick, label, icon: Icon, active, expanded, documentIco
                 if (!expanded) {
                     onExpand?.();
                 }
-                // router.push(`/document/${documentId}`)
+                router.push(`/document/${documentId}`)
             })
 
         toast.promise(promise, {
@@ -71,7 +71,6 @@ export const Item = ({ onClick, label, icon: Icon, active, expanded, documentIco
 
     const ChevronIcon = expanded ? ChevronDown : ChevronRight;
 
-    console.log(level, "on");
     return (
         <div className={cn(`group min-h-[27px] text-sm py-1 pr-3 w-full hover:bg-primary/5
             flex items-center text-muted-foreground font-medium`,
@@ -131,7 +130,6 @@ export const Item = ({ onClick, label, icon: Icon, active, expanded, documentIco
 
 
 Item.Skeleton = function ItemSkeleton({ level }: { level?: number }) {
-    console.log(level)
     return <div
         style={{ paddingLeft: level ? `${(level * 12) + 25}px` : '12px' }}
         className="flex gap-x-2 py-[3px]"

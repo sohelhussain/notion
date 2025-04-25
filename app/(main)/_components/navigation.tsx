@@ -16,6 +16,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { TrashBox } from "./trash-box";
 import { useSearch } from "@/hook/use-search";
 import { Navbar } from "./navbar";
+import { useRouter } from "next/navigation";
 
 const Navigation = () => {
     const pathname = usePathname();
@@ -23,6 +24,7 @@ const Navigation = () => {
     const create = useMutation(api.documents.create);
     const search = useSearch();
     const params = useParams();
+    const router = useRouter();
 
     const isResizingRef = useRef(false);
     const sidebarRef = useRef<HTMLDivElement>(null);
@@ -110,7 +112,7 @@ const Navigation = () => {
     const handleCreate = () => {
         const promise = create({
             title: "Untitled"
-        });
+        }).then((documentId) =>  router.push(`/documents/${documentId}`))
 
         toast.promise(promise, {
             loading: "Creating note...",
@@ -177,8 +179,6 @@ const Navigation = () => {
             </aside>
 
             {/* Navbar */}
-            {console.log(`isCollapsed: ${isCollapsed}`)}
-            {console.log(`documentid: ${params.documentsId}`)}
             <div className={cn(`absolute top-0 z-[99999] left-60 w-[calc(100%-240px)]`,
                 isResetting && 'transition-all ease-in-out duration-300',
                 isMobile && 'left-0 w-full')} ref={navbarRef}>

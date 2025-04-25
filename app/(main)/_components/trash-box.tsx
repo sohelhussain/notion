@@ -51,7 +51,7 @@ export const TrashBox = () => {
     const onRemove = (
         documentId: Id<"documents">
     ) => {
-        const promise = restore({ id: documentId })
+        const promise = remove({ id: documentId })
 
         toast.promise(promise, {
             loading: "Deleting document...",
@@ -92,7 +92,7 @@ export const TrashBox = () => {
                     <span className="truncate pl-2">{document.title}</span>
 
                     <div className="flex items-center">
-                        <div onClick={(e) => onRestore(e, document._id)} role="button" className="rounded-sm hover:bg-neutral-200">
+                        <div onClick={(e) => onRestore(e, document._id)} role="button" className="rounded-sm p-2 hover:bg-neutral-200">
                             <Undo className="w-4 h-4 text-muted-foreground" />
                         </div>
                         <ConfirmModal onConfirm={() => onRemove(document._id)}>

@@ -10,7 +10,6 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
     const { isAuthenticated, isLoading } = useConvexAuth();
     const params = useParams();
-    console.log(`params layout: ${params.documentsId}`)
     if (isLoading) {
         return <div className="h-full flex items-center justify-center">
             <Spinner size={"lg"} />
