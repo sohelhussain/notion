@@ -5,7 +5,7 @@ import { Doc } from "@/convex/_generated/dataModel";
 import IconPicker from "./icon-picker";
 import { Button } from "./ui/button";
 import { Icon, ImageIcon, Smile, X } from "lucide-react";
-import { ElementRef, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import TextareaAutosize from "react-textarea-autosize";
@@ -21,7 +21,7 @@ interface ToolbarProps {
 const Toolbar = ({ initialData, preview }: ToolbarProps) => {
 
 
-    const inputRef = useRef<ElementRef<'textarea'>>(null);
+    const inputRef = useRef<HTMLTextAreaElement | null>(null);
     const [isEditing, setIsEditing] = useState(false);
     const [value, setValue] = useState(initialData.title);
 
@@ -51,6 +51,7 @@ const Toolbar = ({ initialData, preview }: ToolbarProps) => {
 
     const onKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (event.key === "Enter") {
+            event.preventDefault();
             disableInput();
         }
     }
@@ -68,11 +69,16 @@ const Toolbar = ({ initialData, preview }: ToolbarProps) => {
         })
     }
 
+    console.log(`initialData.icon: ${initialData.title}`)
+    console.log(`initialData.icon: ${initialData.icon}`)
+    console.log("icon typeof:", typeof initialData.icon)
+    console.log(`preview: ${preview}`)
+
     return (
-        <div className="pl-[54px] group relative:">
+        <div className="pl-[54px] group relative">
             {!!initialData.icon && !preview && (
                 <div className="flex items-center gap-x-2 group/icon pt-6">
-                    <IconPicker onChange={onIconSelect} asChild={true}>
+                    <IconPicker onChange={onIconSelect} asChild>
                         <p className="text-6xl hover:opacity-75 transition">
                             {initialData.icon}
                         </p>
@@ -92,14 +98,16 @@ const Toolbar = ({ initialData, preview }: ToolbarProps) => {
                     {initialData.icon}
                 </p>
             )}
-            <div className="opacity-0 group-hover:opacity-100 flex items-center gap-x-1 py-4">
+            <div className="flex items-center gap-x-1 py-4">
                 {!initialData.icon && !preview && (
-                    <IconPicker asChild onChange={() => { }} >
-                        <Button className="text-muted-foreground text-sm" variant={"outline"} size={"sm"}>
-                            <Smile className="h-4 w-4 mr-2" />
-                            Add icon
-                        </Button>
-                    </IconPicker>
+                    <>
+                        <IconPicker asChild onChange={onIconSelect} >
+                            <Button className="text-muted-foreground text-sm" variant={"outline"} size={"sm"}>
+                                <Smile className="h-4 w-4 mr-2" />
+                                Add icon
+                            </Button>
+                        </IconPicker>
+                    </>
                 )}
                 {!initialData.coverImage && !preview && (
                     <Button onClick={() => { }}

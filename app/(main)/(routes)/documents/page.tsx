@@ -26,7 +26,7 @@ const Documents = () => {
     }
 
     return (
-        <div className="h-full flex flex-col items-center justify-center">
+        <div className="h-full flex flex-col items-center justify-center space-y-4">
             <h2 className="text-lg font-medium">
                 welcome to {user?.firstName} {user?.lastName}&apos;s Notion
             </h2>
