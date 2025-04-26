@@ -1,5 +1,6 @@
 "use client";
 
+import { ThemeProvider } from "@/components/providers/them-provider";
 import { Spinner } from "@/components/spinner";
 import { useConvexAuth } from "convex/react";
 import { redirect, useParams } from "next/navigation";
@@ -24,13 +25,21 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
     return (
 
+        <ThemeProvider attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+        storageKey="notion-theme"
+      >
         <div className="h-full flex dark:bg-[#1f1f1f]">
             <Navigation />
             <main className="flex-1 overflow-y-auto h-full">
                 <SearchCommand />
                 {children}
             </main>
-        </div>);
+        </div>
+        </ThemeProvider>
+        );
 }
 
 export default MainLayout;

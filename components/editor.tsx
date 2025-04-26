@@ -8,7 +8,7 @@ import { useTheme } from "next-themes";
 import { PartialBlock } from "@blocknote/core";
 import { useEdgeStore } from "@/lib/edgestore";
 
-export default function Editor({
+export function Editor({
   onChange,
   initialContent,
   editable = true,
@@ -17,22 +17,18 @@ export default function Editor({
   initialContent?: string;
   editable?: boolean;
 }) {
-    const { edgestore } = useEdgeStore();
   const { resolvedTheme } = useTheme();
+  const { edgestore } = useEdgeStore();
 
-  const handleUpload = async (file: File) => {
-    const res = await edgestore.publicFiles.upload({
-        file,
-    });
-
-    return res.url;
-  }
 
   const editor = useCreateBlockNote({
     initialContent: initialContent
       ? (JSON.parse(initialContent) as PartialBlock[])
       : undefined,
-      uploadFile: handleUpload,
+    uploadFile: async (file: File) => {
+      const res = await edgestore.publicFiles.upload({ file });
+      return res.url
+    },
   });
 
   return (

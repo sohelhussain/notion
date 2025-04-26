@@ -14,7 +14,7 @@ import { Id } from "@/convex/_generated/dataModel"
 import { Title } from "./title"
 import Banner from "./banner"
 import { Menu } from "./menu"
-import Publish from "./publish"
+import {Publish} from "./publish"
 
 export function Navbar({ isCollapsed, onResetWidth }: NavbarProps) {
 
@@ -52,7 +52,7 @@ export function Navbar({ isCollapsed, onResetWidth }: NavbarProps) {
                 <div className="flex justify-between items-center w-full">
                     <Title initialData={document} />
                     <div className="flex gap-x-2 items-center">
-                        {/* <Publish initialData={document} /> */}
+                        <Publish initialData={document} />
                         <Menu documentId={document._id} />
                     </div>
                 </div>

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
 import Image from 'next/image';
-import { ModeToggle } from '@/components/mode-toggle';
+// import { ModeToggle } from '@/components/mode-toggle';
 import { useConvexAuth } from 'convex/react';
 import { SignInButton, UserButton } from '@clerk/nextjs';
 import { Spinner } from '@/components/spinner';
@@ -81,7 +81,7 @@ const Navbar = () => {
                             <UserButton afterSignOutUrl='/' />
                         </>
                     )}
-                    <ModeToggle />
+                    {/* <ModeToggle /> */}
                 </div>
             </nav>
         </div>

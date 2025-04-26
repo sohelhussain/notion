@@ -11,12 +11,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { DialogTitle } from "@radix-ui/react-dialog"
 
 export function ModeToggle() {
   const { setTheme } = useTheme()
 
   return (
     <DropdownMenu>
+      <DialogTitle>Theme</DialogTitle>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon">
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />

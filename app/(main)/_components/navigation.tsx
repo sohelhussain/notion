@@ -17,12 +17,14 @@ import { TrashBox } from "./trash-box";
 import { useSearch } from "@/hook/use-search";
 import { Navbar } from "./navbar";
 import { useRouter } from "next/navigation";
+import { useSettings } from "@/hook/use-settings";
 
 const Navigation = () => {
     const pathname = usePathname();
     const isMobile = useMediaQuery("(max-width: 768px)");
     const create = useMutation(api.documents.create);
     const search = useSearch();
+    const settings = useSettings()
     const params = useParams();
     const router = useRouter();
 
@@ -112,7 +114,7 @@ const Navigation = () => {
     const handleCreate = () => {
         const promise = create({
             title: "Untitled"
-        }).then((documentId) =>  router.push(`/documents/${documentId}`))
+        }).then((documentId) => router.push(`/documents/${documentId}`))
 
         toast.promise(promise, {
             loading: "Creating note...",
@@ -150,7 +152,7 @@ const Navigation = () => {
                     {/* <p className="text-muted-foreground font-medium">Action items</p> */}
                     <UserItem />
                     <Item onClick={search.onOpen} label="Search" isSearch icon={Search} />
-                    <Item onClick={() => { }} label="Settings" icon={Settings} />
+                    <Item onClick={settings.onOpen} label="Settings" icon={Settings} />
                     <Item onClick={handleCreate} label="Add new" icon={Plus} />
                 </div>
                 <div className="p-4">
