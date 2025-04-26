@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { ChevronsLeft, MenuIcon, Plus, PlusCircle, Search, Settings, Trash } from "lucide-react";
+import { ChevronsLeft, MenuIcon, Plus, Search, Settings, Trash } from "lucide-react";
 import { useParams, usePathname } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
 import { useMediaQuery } from "usehooks-ts";

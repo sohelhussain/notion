@@ -4,7 +4,7 @@
 import { Doc } from "@/convex/_generated/dataModel";
 import IconPicker from "./icon-picker";
 import { Button } from "./ui/button";
-import { Icon, ImageIcon, Smile, X } from "lucide-react";
+import { ImageIcon, Smile, X } from "lucide-react";
 import { useRef, useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -70,10 +70,7 @@ const Toolbar = ({ initialData, preview }: ToolbarProps) => {
         })
     }
 
-    console.log(`initialData.icon: ${initialData.title}`)
-    console.log(`initialData.icon: ${initialData.icon}`)
-    console.log("icon typeof:", typeof initialData.icon)
-    console.log(`preview: ${preview}`)
+
 
     return (
         <div className="pl-[54px] group relative">
