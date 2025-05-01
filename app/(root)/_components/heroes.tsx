@@ -14,6 +14,7 @@ const Heroes = () => {
     return (<div className="container mx-auto">
         <div className="h-[89vh] overflow-hidden rounded-4xl w-full flex items-center justify-center">
             <Image
+                fill
                 src="https://www.notion.com/front-static/pages/product/super-duper/carousel/hp/sites/en-US.png"
                 alt="Toyota logo"
                 className="object-contain h-full w-full"

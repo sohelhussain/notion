@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { ChevronsLeft, MenuIcon, Plus, Search, Settings, Trash } from "lucide-react";
 import { useParams, usePathname } from "next/navigation";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { useMutation } from "convex/react";
 
@@ -34,6 +34,25 @@ const Navigation = () => {
     const [isResetting, setIsResetting] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(false);
 
+
+    const resetWidth = useCallback(() => {
+        if (sidebarRef.current && navbarRef.current) {
+            setIsCollapsed(false);
+            setIsResetting(true);
+    
+            const sidebarWidth = isMobile ? "100%" : "240px";
+            const navbarLeft = isMobile ? "0" : "240px";
+            const navbarWidth = isMobile ? "0" : "calc(100% - 240px)";
+    
+            sidebarRef.current.style.width = sidebarWidth;
+            navbarRef.current.style.left = navbarLeft;
+            navbarRef.current.style.width = navbarWidth;
+    
+            setTimeout(() => setIsResetting(false), 300);
+        }
+    }, [isMobile]);
+    
+
     // Collapse sidebar on mobile by default
     useEffect(() => {
         setIsCollapsed(isMobile);
@@ -43,7 +62,7 @@ const Navigation = () => {
         } else {
             resetWidth();
         }
-    }, [isMobile]);
+    }, [isMobile, resetWidth]);
 
     useEffect(() => {
         if (isMobile) {
@@ -81,22 +100,6 @@ const Navigation = () => {
         document.removeEventListener("mouseup", handleMouseUp);
     };
 
-    const resetWidth = () => {
-        if (sidebarRef.current && navbarRef.current) {
-            setIsCollapsed(false);
-            setIsResetting(true);
-
-            const sidebarWidth = isMobile ? "100%" : "240px";
-            const navbarLeft = isMobile ? "0" : "240px";
-            const navbarWidth = isMobile ? "0" : "calc(100% - 240px)";
-
-            sidebarRef.current.style.width = sidebarWidth;
-            navbarRef.current.style.left = navbarLeft;
-            navbarRef.current.style.width = navbarWidth;
-
-            setTimeout(() => setIsResetting(false), 300);
-        }
-    };
 
     const collapse = () => {
         if (sidebarRef.current && navbarRef.current) {

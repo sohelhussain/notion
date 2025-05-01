@@ -16,7 +16,7 @@ const Heading = () => {
     }
 
     return (
-        <div className="container mx-auto px-4 py-16 md:py-2">
+        <div className="container bg-amber-100 mx-auto px-4 py-16 md:py-2">
             <div className="flex flex-col md:flex-row items-center justify-between">
                 {/* Left side content */}
                 <div className="md:w-1/2 mb-10 md:mb-0">
