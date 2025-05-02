@@ -65,7 +65,7 @@ const Navbar = () => {
                                 </Button>
                             </SignInButton>
                             <SignInButton mode='modal'>
-                                <Button size={"sm"}>
+                                <Button className='cursor-pointer' size={"sm"}>
                                     Get Notion free
                                 </Button>
                             </SignInButton>

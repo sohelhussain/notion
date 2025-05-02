@@ -18,7 +18,8 @@ const Documents = () => {
     const onCreate = () => {
         const promise = create({
             title: "Untitled"
-        }).then((documentId) =>  router.push(`/documents/${documentId}`))
+        })
+        // .then((documentId) =>  router.push(`/documents/${documentId}`))
 
         toast.promise(promise, {
             loading: "Creating note...",

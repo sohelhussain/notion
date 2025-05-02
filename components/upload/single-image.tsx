@@ -178,6 +178,7 @@ const SingleImageDropzone = React.forwardRef<
 
         {displayUrl ? (
           <Image
+            fill
             className="h-full w-full rounded-md object-cover"
             src={displayUrl}
             alt={fileState?.file.name ?? 'uploaded image'}

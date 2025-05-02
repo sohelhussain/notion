@@ -59,7 +59,7 @@ export const Item = ({ onClick, label, icon: Icon, active, expanded, documentIco
                 if (!expanded) {
                     onExpand?.();
                 }
-                router.push(`/document/${documentId}`)
+                // router.push(`/document/${documentId}`)
             })
 
         toast.promise(promise, {

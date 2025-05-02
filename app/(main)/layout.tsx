@@ -23,14 +23,13 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     }
 
     return (
-
         <ThemeProvider attribute="class"
         defaultTheme="system"
         enableSystem
         disableTransitionOnChange
         storageKey="notion-theme"
       >
-        <div className="h-full flex dark:bg-[#1f1f1f]">
+        <div className="h-full flex  dark:bg-[#1f1f1f]">
             <Navigation />
             <main className="flex-1 overflow-y-auto h-full">
                 <SearchCommand />
